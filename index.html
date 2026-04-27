@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación Arduino - Estructuras Básicas con PSeInt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .topic-title {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #3498db;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .section h2 {
+            color: #2980b9;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .section h3 {
+            color: #16a085;
+            margin: 15px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            white-space: pre;
+        }
+
+        .code-block .keyword {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .code-block .function {
+            color: #f39c12;
+        }
+
+        .code-block .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .code-block .string {
+            color: #2ecc71;
+        }
+
+        .code-block .number {
+            color: #9b59b6;
+        }
+
+        .image-placeholder {
+            background: #ecf0f1;
+            border: 3px dashed #bdc3c7;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            color: #7f8c8d;
+        }
+
+        .image-placeholder img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .exercise-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .exercise-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .question-box {
+            background: #d1ecf1;
+            border: 2px solid #17a2b8;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .question-box h3 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+
+        .step-analysis {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .navigation {
+            background: #34495e;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn.active {
+            background: #e74c3c;
+        }
+
+        .nav-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .highlight {
+            background: #fff59d;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        ul li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+            
+            .topic-title {
+                font-size: 1.5em;
+            }
+            
+            .code-block {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Programación para Arduino</h1>
+            <p>Estructuras de Programación con PSeInt - Nivel Medio</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Técnicos en Electrónica - 4to Año</p>
+        </header>
+
+        <!-- TEMA 1: VARIABLES Y TIPOS -->
+        <div class="slide active" id="slide1">
+            <h1 class="topic-title">1. Variables y Tipos de Datos</h1>
+            
+            <div class="section">
+                <h2>📚 Conceptos Fundamentales</h2>
+                <p>Una <span class="highlight">variable</span> es un espacio en memoria donde almacenamos datos que pueden cambiar durante la ejecución del programa. En PSeInt, los tipos de datos principales son:</p>
+                <ul>
+                    <li><strong>ENTERO:</strong> Números sin decimales (ej: 5, -10, 100)</li>
+                    <li><strong>REAL:</strong> Números con decimales (ej: 3.14, -2.5)</li>
+                    <li><strong>CARACTER:</strong> Un solo carácter o texto (ej: "A", "Hola")</li>
+                    <li><strong>LÓGICO:</strong> Valores verdadero/falso</li>
+                </ul>
+                <div class="info-box">
+                    <strong>💡 Importante:</strong> En Arduino, estos tipos se traducen a: int, float, char y boolean
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">VariablesElectronica</span>
+    <span class="comment">// Declaración de variables</span>
+    <span class="keyword">Definir</span> voltaje, corriente <span class="keyword">Como</span> <span class="function">Real</span>;
+    <span class="keyword">Definir</span> resistencia <span class="keyword">Como</span> <span class="function">Entero</span>;
+    <span class="keyword">Definir</span> componente <span class="keyword">Como</span> <span class="function">Caracter</span>;
+    <span class="keyword">Definir</span> circuitoActivo <span class="keyword">Como</span> <span class="function">Logico</span>;
+    
+    <span class="comment">// Asignación de valores</span>
+    voltaje <- <span class="number">12.5</span>;
+    resistencia <- <span class="number">100</span>;
+    componente <- <span class="string">"Resistencia"</span>;
+    circuitoActivo <- <span class="keyword">Verdadero</span>;
+    
+    <span class="function">Escribir</span> <span class="string">"Componente: "</span>, componente;
+    <span class="function">Escribir</span> <span class="string">"Voltaje: "</span>, voltaje, <span class="string">" V"</span>;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se declara la variable "voltaje" como Real (puede tener decimales)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> Se declara "resistencia" como Entero (solo números completos)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> Se asigna el valor 12.5 a la variable voltaje
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Se muestra por pantalla el valor de voltaje
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="1.png" alt="Diagrama de variables en memoria" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 1.png<br><small>Diagrama de memoria con variables</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Crea un algoritmo que declare variables para almacenar:</p>
+                <ul>
+                    <li>La temperatura de un sensor (puede tener decimales)</li>
+                    <li>El número de veces que se presiona un botón</li>
+                    <li>El estado de un LED (encendido/apagado)</li>
+                    <li>El nombre del tipo de sensor</li>
+                </ul>
+                <p>Asigna valores iniciales y muéstralos en pantalla.</p>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Declara variables para calcular la ley de Ohm (V = I × R):</p>
+                <ul>
+                    <li>Corriente (I) en Amperios</li>
+                    <li>Resistencia (R) en Ohmios</li>
+                    <li>Voltaje (V) en Voltios</li>
+                </ul>
+                <p>Asigna valores y muestra los tres valores en pantalla.</p>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Por qué es importante declarar el tipo de dato correcto para cada variable?</li>
+                    <li>¿Qué pasaría si intentamos guardar el valor 3.14 en una variable tipo Entero?</li>
+                    <li>En Arduino, ¿cuántos bytes ocupa una variable tipo Entero y una tipo Real?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 2: ESCRIBIR EN PANTALLA -->
+        <div class="slide" id="slide2">
+            <h1 class="topic-title">2. Escribir Mensajes en Pantalla</h1>
+            
+            <div class="section">
+                <h2>📚 La Instrucción Escribir</h2>
+                <p>La instrucción <span class="highlight">Escribir</span> (o <span class="highlight">EscribirSinSaltar</span>) permite mostrar información en la pantalla de salida. Es fundamental para:</p>
+                <ul>
+                    <li>Mostrar mensajes al usuario</li>
+                    <li>Visualizar resultados de cálculos</li>
+                    <li>Depurar el programa (ver valores de variables)</li>
+                </ul>
+                <div class="info-box">
+                    <strong>💡 En Arduino:</strong> Esto equivale a Serial.println() y Serial.print()
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">MonitorSerial</span>
+    <span class="keyword">Definir</span> mensaje <span class="keyword">Como</span> <span class="function">Caracter</span>;
+    <span class="keyword">Definir</span> valorSensor <span class="keyword">Como</span> <span class="function">Entero</span>;
+    
+    <span class="comment">// Mensajes informativos</span>
+    <span class="function">Escribir</span> <span class="string">"=== SISTEMA DE MONITOREO ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"Iniciando lectura de sensores..."</span>;
+    <span class="function">Escribir</span> <span class="string">""</span>;  <span class="comment">// Línea en blanco</span>
+    
+    valorSensor <- <span class="number">255</span>;
+    mensaje <- <span class="string">"Valor leído: "</span>;
+    
+    <span class="comment">// Concatenación de texto y variables</span>
+    <span class="function">Escribir</span> mensaje, valorSensor;
+    <span class="function">Escribir</span> <span class="string">"Estado del sistema: "</span>, <span class="string">"ACTIVO"</span>;
+    <span class="function">Escribir</span> <span class="string">"=========================="</span>;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se muestra el título "=== SISTEMA DE MONITOREO ==="
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> Se muestra el mensaje de inicio
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> Se asigna 255 a valorSensor
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Se concatena "Valor leído: " con el valor 255 → "Valor leído: 255"
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 5:</strong> Se muestra el estado final
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="2.png" alt="Salida de pantalla PSeInt" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 2.png<br><small>Captura de salida en consola</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Crea un programa que muestre en pantalla una "tarjeta de presentación" de un componente electrónico con:</p>
+                <ul>
+                    <li>Nombre del componente</li>
+                    <li>Valor nominal</li>
+                    <li>Tolerancia</li>
+                    <li>Potencia máxima</li>
+                </ul>
+                <p>Usa líneas separadoras y formato atractivo.</p>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Simula la salida del monitor serial de Arduino mostrando:</p>
+                <ul>
+                    <li>Un mensaje de inicio "Arduino Ready"</li>
+                    <li>Tres lecturas de sensor simuladas (valores fijos)</li>
+                    <li>Un mensaje de finalización</li>
+                </ul>
+                <p>Usa EscribirSinSaltar para mostrar "Lectura: " y el valor en la misma línea.</p>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Cuál es la diferencia entre Escribir y EscribirSinSaltar?</li>
+                    <li>¿Cómo se puede mostrar el valor de una variable junto con texto descriptivo?</li>
+                    <li>En Arduino, ¿qué función es equivalente a Escribir y qué configuración inicial se necesita?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 3: LEER DESDE TECLADO -->
+        <div class="slide" id="slide3">
+            <h1 class="topic-title">3. Ingresar Valores desde el Teclado</h1>
+            
+            <div class="section">
+                <h2>📚 La Instrucción Leer</h2>
+                <p>La instrucción <span class="highlight">Leer</span> permite recibir datos del usuario durante la ejecución del programa. El programa se pausa hasta que el usuario ingresa un valor y presiona Enter.</p>
+                <div class="info-box">
+                    <strong>💡 En Arduino:</strong> Esto equivale a leer el puerto serial con Serial.parseInt() o Serial.readString()
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">LecturaSensor</span>
+    <span class="keyword">Definir</span> valorUmbral <span class="keyword">Como</span> <span class="function">Entero</span>;
+    <span class="keyword">Definir</span> nombreSensor <span class="keyword">Como</span> <span class="function">Caracter</span>;
+    
+    <span class="comment">// Solicitar datos al usuario</span>
+    <span class="function">Escribir</span> <span class="string">"=== CONFIGURACIÓN DEL SENSOR ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"Ingrese el nombre del sensor:"</span>;
+    <span class="function">Leer</span> nombreSensor;
+    
+    <span class="function">Escribir</span> <span class="string">"Ingrese el valor umbral (0-1023):"</span>;
+    <span class="function">Leer</span> valorUmbral;
+    
+    <span class="comment">// Confirmar datos ingresados</span>
+    <span class="function">Escribir</span> <span class="string">""</span>;
+    <span class="function">Escribir</span> <span class="string">"Configuración guardada:"</span>;
+    <span class="function">Escribir</span> <span class="string">"Sensor: "</span>, nombreSensor;
+    <span class="function">Escribir</span> <span class="string">"Umbral: "</span>, valorUmbral;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se muestra el mensaje pidiendo el nombre del sensor
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> El programa SE DETIENE y espera que el usuario escriba algo
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> Cuando el usuario presiona Enter, el texto se guarda en "nombreSensor"
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Se pide el valor umbral y se lee en la variable valorUmbral
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 5:</strong> Se muestran los valores ingresados
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="3.png" alt="Interacción con Leer en PSeInt" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 3.png<br><small>Captura de interacción usuario-programa</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Crea una calculadora de resistencia que:</p>
+                <ul>
+                    <li>Pida al usuario el valor de voltaje (V)</li>
+                    <li>Pida el valor de corriente (I)</li>
+                    <li>Calcule la resistencia usando R = V/I</li>
+                    <li>Muestre el resultado</li>
+                </ul>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Simula la configuración de un temporizador:</p>
+                <ul>
+                    <li>Pide el tiempo de encendido en segundos</li>
+                    <li>Pide el tiempo de apagado en segundos</li>
+                    <li>Pide el número de ciclos a repetir</li>
+                    <li>Muestra un resumen de la configuración</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Qué sucede si el usuario ingresa un texto cuando se espera un número?</li>
+                    <li>¿Cómo se puede validar que el valor ingresado esté en un rango correcto?</li>
+                    <li>En Arduino, ¿cómo se lee datos del puerto serial y qué diferencias hay con PSeInt?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 4: OPERACIONES MATEMÁTICAS -->
+        <div class="slide" id="slide4">
+            <h1 class="topic-title">4. Programas con Cálculos Matemáticos</h1>
+            
+            <div class="section">
+                <h2>📚 Operadores Aritméticos</h2>
+                <p>PSeInt permite realizar operaciones matemáticas básicas y avanzadas:</p>
+                <ul>
+                    <li><strong>Suma:</strong> +</li>
+                    <li><strong>Resta:</strong> -</li>
+                    <li><strong>Multiplicación:</strong> *</li>
+                    <li><strong>División:</strong> /</li>
+                    <li><strong>Módulo (resto):</strong> MOD</li>
+                    <li><strong>Potencia:</strong> ^</li>
+                </ul>
+                <div class="info-box">
+                    <strong>💡 Aplicación en electrónica:</strong> Ley de Ohm, cálculo de potencia, divisores de voltaje, etc.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">CalculadoraElectronica</span>
+    <span class="keyword">Definir</span> v, i, r, p <span class="keyword">Como</span> <span class="function">Real</span>;
+    
+    <span class="function">Escribir</span> <span class="string">"=== CALCULADORA LEY DE OHM ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"Ingrese voltaje (V):"</span>;
+    <span class="function">Leer</span> v;
+    <span class="function">Escribir</span> <span class="string">"Ingrese corriente (A):"</span>;
+    <span class="function">Leer</span> i;
+    
+    <span class="comment">// Cálculos</span>
+    r <- v / i;                    <span class="comment">// Resistencia</span>
+    p <- v * i;                    <span class="comment">// Potencia</span>
+    
+    <span class="function">Escribir</span> <span class="string">""</span>;
+    <span class="function">Escribir</span> <span class="string">"=== RESULTADOS ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"Resistencia: "</span>, r, <span class="string">" Ω"</span>;
+    <span class="function">Escribir</span> <span class="string">"Potencia: "</span>, p, <span class="string">" W"</span>;
+    <span class="function">Escribir</span> <span class="string">"Potencia en mW: "</span>, p * <span class="number">1000</span>, <span class="string">" mW"</span>;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se declaran 4 variables tipo Real: v, i, r, p
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> Se lee el voltaje (ej: 12) y la corriente (ej: 0.5)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> Se calcula r = 12 / 0.5 = 24 Ω
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Se calcula p = 12 * 0.5 = 6 W
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 5:</strong> Se muestran los resultados incluyendo conversión a mW
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="4.png" alt="Cálculos matemáticos en PSeInt" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 4.png<br><small>Diagrama de flujo de cálculos</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Crea un programa que calcule el valor de un divisor de voltaje:</p>
+                <ul>
+                    <li>Pide el voltaje de entrada (Vin)</li>
+                    <li>Pide el valor de R1 y R2</li>
+                    <li>Calcula Vout = Vin × (R2 / (R1 + R2))</li>
+                    <li>Muestra el resultado</li>
+                </ul>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Calcula la resistencia equivalente:</p>
+                <ul>
+                    <li>Pide al usuario si las resistencias están en SERIE o PARALELO</li>
+                    <li>Pide 3 valores de resistencia</li>
+                    <li>Calcula: Serie (R1+R2+R3) o Paralelo (1/(1/R1+1/R2+1/R3))</li>
+                    <li>Muestra el resultado</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Qué sucede al dividir dos números enteros en PSeInt?</li>
+                    <li>¿Cómo se calcula la raíz cuadrada en PSeInt?</li>
+                    <li>¿Qué operador usarías para saber si un número es par o impar?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 5: IF - ENTONCES -->
+        <div class="slide" id="slide5">
+            <h1 class="topic-title">5. Estructura Condicional SI-ENTONCES</h1>
+            
+            <div class="section">
+                <h2>📚 Toma de Decisiones</h2>
+                <p>La estructura <span class="highlight">Si-Entonces</span> permite ejecutar diferentes bloques de código según se cumpla o no una condición. Es fundamental para:</p>
+                <ul>
+                    <li>Comparar valores de sensores</li>
+                    <li>Activar/desactivar dispositivos</li>
+                    <li>Validar datos ingresados</li>
+                </ul>
+                <div class="info-box">
+                    <strong>💡 En Arduino:</strong> if, else if, else
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">ControlLED</span>
+    <span class="keyword">Definir</span> valorSensor <span class="keyword">Como</span> <span class="function">Entero</span>;
+    <span class="keyword">Definir</span> umbral <span class="keyword">Como</span> <span class="function">Entero</span>;
+    
+    umbral <- <span class="number">500</span>;
+    
+    <span class="function">Escribir</span> <span class="string">"Ingrese valor del sensor (0-1023):"</span>;
+    <span class="function">Leer</span> valorSensor;
+    
+    <span class="keyword">Si</span> valorSensor > umbral <span class="keyword">Entonces</span>
+        <span class="function">Escribir</span> <span class="string">"⚠️ ALERTA: Valor alto detectado"</span>;
+        <span class="function">Escribir</span> <span class="string">"Encendiendo LED de alarma..."</span>;
+    <span class="keyword">SiNo</span>
+        <span class="function">Escribir</span> <span class="string">"✓ Valor normal"</span>;
+        <span class="function">Escribir</span> <span class="string">"LED apagado"</span>;
+    <span class="keyword">FinSi</span>
+    
+    <span class="function">Escribir</span> <span class="string">"Valor leído: "</span>, valorSensor;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se establece el umbral en 500
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> Se lee el valor del sensor (ej: 650)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> Se evalúa: ¿650 > 500? → VERDADERO
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Se ejecuta el bloque Entonces (alarma)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 5:</strong> Se salta el bloque SiNo y continúa después de FinSi
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Variante: Múltiples Condiciones</h3>
+                <div class="code-block">
+<span class="keyword">Si</span> temperatura < <span class="number">0</span> <span class="keyword">Entonces</span>
+    <span class="function">Escribir</span> <span class="string">"Congelando"</span>;
+<span class="keyword">SiNo</span> <span class="keyword">Si</span> temperatura < <span class="number">20</span> <span class="keyword">Entonces</span>
+    <span class="function">Escribir</span> <span class="string">"Frío"</span>;
+<span class="keyword">SiNo</span> <span class="keyword">Si</span> temperatura < <span class="number">30</span> <span class="keyword">Entonces</span>
+    <span class="function">Escribir</span> <span class="string">"Agradable"</span>;
+<span class="keyword">SiNo</span>
+    <span class="function">Escribir</span> <span class="string">"Calor"</span>;
+<span class="keyword">FinSi</span></div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="5.png" alt="Diagrama de flujo condicional" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 5.png<br><small>Diagrama de flujo SI-ENTONCES</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Crea un sistema de protección que:</p>
+                <ul>
+                    <li>Lea un valor de corriente</li>
+                    <li>Si es mayor a 2A, muestre "SOBRECARGA - Abrir relay"</li>
+                    <li>Si está entre 1A y 2A, muestre "Carga normal"</li>
+                    <li>Si es menor a 1A, muestre "Carga baja"</li>
+                </ul>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Simula un termostato:</p>
+                <ul>
+                    <li>Lee la temperatura actual</li>
+                    <li>Si temp < 18°C: "Encender calefacción"</li>
+                    <li>Si temp > 25°C: "Encender aire acondicionado"</li>
+                    <li>Si no: "Sistema en standby"</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Qué operadores de comparación existen en PSeInt? (>, <, >=, <=, =, !=)</li>
+                    <li>¿Cómo se combinan múltiples condiciones con Y (AND) y O (OR)?</li>
+                    <li>¿Qué es un "if anidado" y cuándo se usa?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 6: SWITCH CASE -->
+        <div class="slide" id="slide6">
+            <h1 class="topic-title">6. Estructura SEGÚN (Switch-Case)</h1>
+            
+            <div class="section">
+                <h2>📚 Selección Múltiple</h2>
+                <p>La estructura <span class="highlight">Según</span> permite seleccionar entre múltiples opciones basadas en el valor de una variable. Es más clara que múltiples Si-Entonces cuando hay muchas opciones.</p>
+                <div class="info-box">
+                    <strong>💡 En Arduino:</strong> switch-case
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">MenuOperaciones</span>
+    <span class="keyword">Definir</span> opcion <span class="keyword">Como</span> <span class="function">Entero</span>;
+    <span class="keyword">Definir</span> num1, num2, resultado <span class="keyword">Como</span> <span class="function">Real</span>;
+    
+    <span class="function">Escribir</span> <span class="string">"=== CALCULADORA ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"1. Sumar"</span>;
+    <span class="function">Escribir</span> <span class="string">"2. Restar"</span>;
+    <span class="function">Escribir</span> <span class="string">"3. Multiplicar"</span>;
+    <span class="function">Escribir</span> <span class="string">"4. Dividir"</span>;
+    <span class="function">Escribir</span> <span class="string">"Seleccione opción (1-4):"</span>;
+    <span class="function">Leer</span> opcion;
+    
+    <span class="function">Escribir</span> <span class="string">"Ingrese primer número:"</span>;
+    <span class="function">Leer</span> num1;
+    <span class="function">Escribir</span> <span class="string">"Ingrese segundo número:"</span>;
+    <span class="function">Leer</span> num2;
+    
+    <span class="keyword">Segun</span> opcion <span class="keyword">Hacer</span>
+        <span class="number">1</span>:
+            resultado <- num1 + num2;
+            <span class="function">Escribir</span> <span class="string">"Resultado: "</span>, resultado;
+        <span class="number">2</span>:
+            resultado <- num1 - num2;
+            <span class="function">Escribir</span> <span class="string">"Resultado: "</span>, resultado;
+        <span class="number">3</span>:
+            resultado <- num1 * num2;
+            <span class="function">Escribir</span> <span class="string">"Resultado: "</span>, resultado;
+        <span class="number">4</span>:
+            <span class="keyword">Si</span> num2 != <span class="number">0</span> <span class="keyword">Entonces</span>
+                resultado <- num1 / num2;
+                <span class="function">Escribir</span> <span class="string">"Resultado: "</span>, resultado;
+            <span class="keyword">SiNo</span>
+                <span class="function">Escribir</span> <span class="string">"Error: División por cero"</span>;
+            <span class="keyword">FinSi</span>
+        <span class="keyword">De Otro Modo</span>:
+            <span class="function">Escribir</span> <span class="string">"Opción no válida"</span>;
+    <span class="keyword">FinSegun</span>
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se muestra el menú y se lee la opción (ej: 3)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> Se leen los dos números (ej: 5 y 4)
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> Según evalúa: opcion = 3
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Salta directamente al caso 3
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 5:</strong> Ejecuta: resultado = 5 * 4 = 20
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 6:</strong> Muestra el resultado y sale de Según
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="6.png" alt="Estructura Según diagrama" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 6.png<br><small>Diagrama de flujo SEGÚN</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Crea un selector de componentes:</p>
+                <ul>
+                    <li>Opción 1: Resistor - muestra código de colores</li>
+                    <li>Opción 2: Capacitor - muestra unidades (pF, nF, uF)</li>
+                    <li>Opción 3: LED - muestra polaridad y voltaje</li>
+                    <li>Opción 4: Transistor - muestra tipo NPN/PNP</li>
+                </ul>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Simula un multímetro digital:</p>
+                <ul>
+                    <li>Menú: 1-Voltaje, 2-Corriente, 3-Resistencia</li>
+                    <li>Según la opción, pide el valor medido</li>
+                    <li>Muestra el valor con la unidad correcta (V, A, Ω)</li>
+                    <li>Incluye opción "De Otro Modo" para opción inválida</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Cuándo es mejor usar Según en lugar de múltiples Si-Entonces?</li>
+                    <li>¿Qué pasa si no se incluye "De Otro Modo" y la opción no coincide?</li>
+                    <li>¿Se puede usar Según con variables de tipo Caracter (texto)?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 7: CICLO FOR -->
+        <div class="slide" id="slide7">
+            <h1 class="topic-title">7. Ciclo PARA (For)</h1>
+            
+            <div class="section">
+                <h2>📚 Repetición Controlada</h2>
+                <p>El ciclo <span class="highlight">Para</span> se usa cuando sabemos exactamente cuántas veces queremos repetir un bloque de código. Es ideal para:</p>
+                <ul>
+                    <li>Recorrer arrays o listas</li>
+                    <li>Generar secuencias</li>
+                    <li>Realizar un número fijo de iteraciones</li>
+                </ul>
+                <div class="info-box">
+                    <strong>💡 En Arduino:</strong> for(inicialización; condición; incremento)
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">ParpadeoLED</span>
+    <span class="keyword">Definir</span> i <span class="keyword">Como</span> <span class="function">Entero</span>;
+    <span class="keyword">Definir</span> veces <span class="keyword">Como</span> <span class="function">Entero</span>;
+    
+    <span class="function">Escribir</span> <span class="string">"=== SIMULACIÓN PARPADEO LED ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"¿Cuántos parpadeos desea?"</span>;
+    <span class="function">Leer</span> veces;
+    
+    <span class="function">Escribir</span> <span class="string">""</span>;
+    <span class="keyword">Para</span> i <- <span class="number">1</span> <span class="keyword">Hasta</span> veces <span class="keyword">Hacer</span>
+        <span class="function">Escribir</span> <span class="string">"Parpadeo #"</span>, i, <span class="string">" - LED ENCENDIDO 💡"</span>;
+        <span class="function">Escribir</span> <span class="string">"Esperando 500ms..."</span>;
+        <span class="function">Escribir</span> <span class="string">"LED APAGADO ⚫"</span>;
+        <span class="function">Escribir</span> <span class="string">"Esperando 500ms..."</span>;
+        <span class="function">Escribir</span> <span class="string">"-------------------"</span>;
+    <span class="keyword">FinPara</span>
+    
+    <span class="function">Escribir</span> <span class="string">"✅ Secuencia completada"</span>;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso (si veces=3)</h2>
+                <div class="step-analysis">
+                    <strong>Iteración 1:</strong> i=1, se ejecuta el bloque, se muestra "Parpadeo #1"
+                </div>
+                <div class="step-analysis">
+                    <strong>Iteración 2:</strong> i=2, se ejecuta el bloque, se muestra "Parpadeo #2"
+                </div>
+                <div class="step-analysis">
+                    <strong>Iteración 3:</strong> i=3, se ejecuta el bloque, se muestra "Parpadeo #3"
+                </div>
+                <div class="step-analysis">
+                    <strong>Fin:</strong> i=4, ya no cumple i<=3, sale del ciclo
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Variante: Ciclo con incremento personalizado</h3>
+                <div class="code-block">
+<span class="keyword">Para</span> i <- <span class="number">0</span> <span class="keyword">Hasta</span> <span class="number">10</span> <span class="keyword">Con</span> Paso <span class="number">2</span> <span class="keyword">Hacer</span>
+    <span class="function">Escribir</span> <span class="string">"Valor: "</span>, i;  <span class="comment">// Muestra: 0, 2, 4, 6, 8, 10</span>
+<span class="keyword">FinPara</span>
+
+<span class="keyword">Para</span> i <- <span class="number">10</span> <span class="keyword">Hasta</span> <span class="number">1</span> <span class="keyword">Con</span> Paso <span class="number">-1</span> <span class="keyword">Hacer</span>
+    <span class="function">Escribir</span> <span class="string">"Cuenta regresiva: "</span>, i;
+<span class="keyword">FinPara</span></div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="7.png" alt="Ciclo Para diagrama" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 7.png<br><small>Diagrama de ciclo PARA</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Genera una tabla de conversión:</p>
+                <ul>
+                    <li>Usa un ciclo Para de 0 a 10</li>
+                    <li>Para cada valor, calcula su equivalente en binario (solo muestra el número)</li>
+                    <li>Muestra: "Decimal: X - Valor"</li>
+                </ul>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Simula un semáforo:</p>
+                <ul>
+                    <li>Ciclo de 5 vueltas</li>
+                    <li>Cada vuelta: Rojo (3s), Amarillo (1s), Verde (3s)</li>
+                    <li>Muestra el estado actual y el tiempo</li>
+                    <li>Indica el número de ciclo</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Qué pasa si el valor inicial es mayor que el valor final?</li>
+                    <li>¿Cómo se crea un ciclo infinito con Para?</li>
+                    <li>¿Se puede modificar la variable de control dentro del ciclo? ¿Es recomendable?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- TEMA 8: CICLO WHILE -->
+        <div class="slide" id="slide8">
+            <h1 class="topic-title">8. Ciclo MIENTRAS (While)</h1>
+            
+            <div class="section">
+                <h2>📚 Repetición Condicional</h2>
+                <p>El ciclo <span class="highlight">Mientras</span> repite un bloque mientras se cumpla una condición. A diferencia de Para, NO sabemos cuántas veces se repetirá. Es ideal para:</p>
+                <ul>
+                    <li>Esperar una condición externa (botón, sensor)</li>
+                    <li>Validar entrada de datos</li>
+                    <li>Programas que deben ejecutarse continuamente</li>
+                </ul>
+                <div class="info-box">
+                    <strong>💡 En Arduino:</strong> while() y do-while(). El loop() principal es esencialmente un while(true)
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplo en PSeInt</h2>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">EsperarBoton</span>
+    <span class="keyword">Definir</span> estadoBoton <span class="keyword">Como</span> <span class="function">Entero</span>;
+    <span class="keyword">Definir</span> intentos <span class="keyword">Como</span> <span class="function">Entero</span>;
+    
+    intentos <- <span class="number">0</span>;
+    estadoBoton <- <span class="number">0</span>;  <span class="comment">// 0 = no presionado, 1 = presionado</span>
+    
+    <span class="function">Escribir</span> <span class="string">"=== ESPERANDO BOTÓN ==="</span>;
+    <span class="function">Escribir</span> <span class="string">"Presione 1 para activar, 0 para mantener:"</span>;
+    
+    <span class="keyword">Mientras</span> estadoBoton != <span class="number">1</span> <span class="keyword">Hacer</span>
+        intentos <- intentos + <span class="number">1</span>;
+        <span class="function">Escribir</span> <span class="string">"Intento #"</span>, intentos, <span class="string">" - Botón no presionado"</span>;
+        <span class="function">Escribir</span> <span class="string">"Ingrese estado (0/1):"</span>;
+        <span class="function">Leer</span> estadoBoton;
+        
+        <span class="keyword">Si</span> estadoBoton == <span class="number">0</span> <span class="keyword">Entonces</span>
+            <span class="function">Escribir</span> <span class="string">"Siga presionando..."</span>;
+        <span class="keyword">FinSi</span>;
+    <span class="keyword">FinMientras</span>
+    
+    <span class="function">Escribir</span> <span class="string">"✅ ¡BOTÓN PRESIONADO!"</span>;
+    <span class="function">Escribir</span> <span class="string">"Total de intentos: "</span>, intentos;
+    <span class="function">Escribir</span> <span class="string">"Ejecutando acción..."</span>;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Análisis Paso a Paso</h2>
+                <div class="step-analysis">
+                    <strong>Paso 1:</strong> Se inicializa estadoBoton=0 e intentos=0
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 2:</strong> Se evalúa: ¿0 != 1? → VERDADERO, entra al ciclo
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 3:</strong> intentos=1, se pide ingresar estado
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 4:</strong> Usuario ingresa 0 → se repite el ciclo
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 5:</strong> Usuario ingresa 1 → ¿1 != 1? → FALSO
+                </div>
+                <div class="step-analysis">
+                    <strong>Paso 6:</strong> Sale del ciclo y muestra mensaje final
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Ejemplo: Validación de datos</h3>
+                <div class="code-block">
+<span class="keyword">Algoritmo</span> <span class="function">ValidarRango</span>
+    <span class="keyword">Definir</span> valor <span class="keyword">Como</span> <span class="function">Entero</span>;
+    
+    valor <- <span class="number">0</span>;
+    
+    <span class="keyword">Mientras</span> valor < <span class="number">1</span> <span class="keyword">O</span> valor > <span class="number">100</span> <span class="keyword">Hacer</span>
+        <span class="function">Escribir</span> <span class="string">"Ingrese valor (1-100):"</span>;
+        <span class="function">Leer</span> valor;
+        
+        <span class="keyword">Si</span> valor < <span class="number">1</span> <span class="keyword">O</span> valor > <span class="number">100</span> <span class="keyword">Entonces</span>
+            <span class="function">Escribir</span> <span class="string">"❌ Valor fuera de rango. Intente nuevamente."</span>;
+        <span class="keyword">FinSi</span>;
+    <span class="keyword">FinMientras</span>
+    
+    <span class="function">Escribir</span> <span class="string">"✓ Valor válido: "</span>, valor;
+<span class="keyword">FinAlgoritmo</span></div>
+            </div>
+
+            <div class="image-placeholder">
+                <img src="8.png" alt="Ciclo Mientras diagrama" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display: none;">📷 Espacio para imagen: 8.png<br><small>Diagrama de ciclo MIENTRAS</small></div>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 1</h3>
+                <p>Simula la carga de un capacitor:</p>
+                <ul>
+                    <li>Voltaje inicial = 0V</li>
+                    <li>Mientras voltaje < 12V:</li>
+                    <li>Incrementa voltaje en 1V</li>
+                    <li>Muestra "Cargando: X V"</li>
+                    <li>Al finalizar: "Capacitor cargado al 100%"</li>
+                </ul>
+            </div>
+
+            <div class="exercise-box">
+                <h3>🎯 Ejercicio 2</h3>
+                <p>Crea un menú repetitivo:</p>
+                <ul>
+                    <li>Mientras la opción sea diferente de 0:</li>
+                    <li>Muestra menú: 1-Medir, 2-Calibrar, 3-Configurar, 0-Salir</li>
+                    <li>Ejecuta la opción seleccionada</li>
+                    <li>Al ingresar 0, muestra "Sistema apagado"</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h3>🤔 Preguntas de Profundización</h3>
+                <ol>
+                    <li>¿Qué es un "ciclo infinito" y cómo se puede evitar?</li>
+                    <li>¿Cuál es la diferencia entre Mientras y Mientras-Que (do-while)?</li>
+                    <li>¿Cuándo es mejor usar Mientras en lugar de Para?</li>
+                    <li>En Arduino, ¿por qué el loop() es esencialmente un while(true)?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- NAVEGACIÓN -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="changeSlide(-1)" id="btnPrev">⬅ Anterior</button>
+            <button class="nav-btn active" onclick="goToSlide(1)" id="btn1">1</button>
+            <button class="nav-btn" onclick="goToSlide(2)" id="btn2">2</button>
+            <button class="nav-btn" onclick="goToSlide(3)" id="btn3">3</button>
+            <button class="nav-btn" onclick="goToSlide(4)" id="btn4">4</button>
+            <button class="nav-btn" onclick="goToSlide(5)" id="btn5">5</button>
+            <button class="nav-btn" onclick="goToSlide(6)" id="btn6">6</button>
+            <button class="nav-btn" onclick="goToSlide(7)" id="btn7">7</button>
+            <button class="nav-btn" onclick="goToSlide(8)" id="btn8">8</button>
+            <button class="nav-btn" onclick="changeSlide(1)" id="btnNext">Siguiente ➡</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function showSlide(n) {
+            // Ocultar todas las diapositivas
+            for (let i = 1; i <= totalSlides; i++) {
+                document.getElementById('slide' + i).classList.remove('active');
+                document.getElementById('btn' + i).classList.remove('active');
+            }
+            
+            // Mostrar diapositiva actual
+            document.getElementById('slide' + n).classList.add('active');
+            document.getElementById('btn' + n).classList.add('active');
+            
+            // Actualizar estado de botones
+            document.getElementById('btnPrev').disabled = (n === 1);
+            document.getElementById('btnNext').disabled = (n === totalSlides);
+            
+            currentSlide = n;
+            
+            // Scroll al inicio
+            window.scrollTo(0, 0);
+        }
+
+        function changeSlide(direction) {
+            const newSlide = currentSlide + direction;
+            if (newSlide >= 1 && newSlide <= totalSlides) {
+                showSlide(newSlide);
+            }
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                changeSlide(1);
+            } else if (e.key >= '1' && e.key <= '8') {
+                goToSlide(parseInt(e.key));
+            }
+        });
+
+        // Inicializar
+        showSlide(1);
+    </script>
+</body>
+</html>
