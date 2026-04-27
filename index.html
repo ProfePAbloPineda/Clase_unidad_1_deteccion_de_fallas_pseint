@@ -242,6 +242,83 @@
             border-radius: 5px;
         }
 
+        .eval-case {
+            background: #fce4ec;
+            border: 3px solid #e91e63;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .eval-case h3 {
+            color: #c2185b;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .eval-case ul {
+            margin-left: 20px;
+        }
+
+        .eval-case li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .grading-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .grading-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .grading-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .grading-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .color-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .color-table th {
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .color-table td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+        }
+
+        .color-black { background-color: #2c2c2c; color: white; }
+        .color-brown { background-color: #8B4513; color: white; }
+        .color-red { background-color: #e74c3c; color: white; }
+        .color-orange { background-color: #e67e22; color: white; }
+        .color-yellow { background-color: #f1c40f; color: #333; }
+        .color-green { background-color: #27ae60; color: white; }
+        .color-blue { background-color: #2980b9; color: white; }
+        .color-violet { background-color: #8e44ad; color: white; }
+        .color-gray { background-color: #7f8c8d; color: white; }
+        .color-white { background-color: #ecf0f1; color: #333; }
+        .color-gold { background-color: #f9a825; color: #333; }
+        .color-silver { background-color: #bdc3c7; color: #333; }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -1108,6 +1185,218 @@
             </div>
         </div>
 
+        <!-- TEMA 9: EVALUACIÓN PRÁCTICA -->
+        <div class="slide" id="slide9">
+            <h1 class="topic-title">📝 Evaluación Práctica de Ejecución</h1>
+            
+            <div class="section" style="background: #fff3e0; border-left-color: #ff9800;">
+                <h2 style="color: #e65100;">📋 Instrucciones Generales</h2>
+                <ul>
+                    <li><strong>Tiempo:</strong> 60 minutos</li>
+                    <li><strong>Herramienta:</strong> PSeInt</li>
+                    <li><strong>Formato:</strong> Algoritmo individual</li>
+                    <li><strong>Entrega:</strong> Archivo .pseint con nombre "Apellido_Nombre_Evaluacion"</li>
+                    <li>Debe incluir comentarios en cada sección del código</li>
+                    <li>Probar el algoritmo paso a paso en PSeInt</li>
+                </ul>
+            </div>
+
+            <!-- CASO 1: RESISTENCIAS -->
+            <div class="eval-case">
+                <h3>🎯 CASO 1: Calculadora de Resistencia por Códigos de Color</h3>
+                <p style="margin-bottom: 15px;">Realizar un programa que le pregunte al usuario las <strong>3 bandas de color</strong> y la <strong>tolerancia</strong> de una resistencia eléctrica, y calcule:</p>
+                <ul>
+                    <li><strong>Valor nominal</strong> de la resistencia en ohmios (Ω)</li>
+                    <li><strong>Valor en kilohmios</strong> (kΩ)</li>
+                    <li><strong>Valor máximo posible</strong> según la tolerancia</li>
+                    <li><strong>Valor mínimo posible</strong> según la tolerancia</li>
+                </ul>
+                
+                <h3 style="margin-top: 20px; color: #c2185b;">📌 Tabla de Códigos de Colores</h3>
+                <table class="color-table">
+                    <tr>
+                        <th style="background: #333; color: white;">Color</th>
+                        <th style="background: #333; color: white;">1ª/2ª Banda<br>(Dígito)</th>
+                        <th style="background: #333; color: white;">3ª Banda<br>(Multiplicador)</th>
+                        <th style="background: #333; color: white;">Tolerancia</th>
+                    </tr>
+                    <tr class="color-black">
+                        <td>Negro</td><td>0</td><td>×1</td><td>-</td>
+                    </tr>
+                    <tr class="color-brown">
+                        <td>Marrón</td><td>1</td><td>×10</td><td>±1%</td>
+                    </tr>
+                    <tr class="color-red">
+                        <td>Rojo</td><td>2</td><td>×100</td><td>±2%</td>
+                    </tr>
+                    <tr class="color-orange">
+                        <td>Naranja</td><td>3</td><td>×1000</td><td>-</td>
+                    </tr>
+                    <tr class="color-yellow">
+                        <td>Amarillo</td><td>4</td><td>×10000</td><td>-</td>
+                    </tr>
+                    <tr class="color-green">
+                        <td>Verde</td><td>5</td><td>×100000</td><td>±0.5%</td>
+                    </tr>
+                    <tr class="color-blue">
+                        <td>Azul</td><td>6</td><td>×1000000</td><td>±0.25%</td>
+                    </tr>
+                    <tr class="color-violet">
+                        <td>Violeta</td><td>7</td><td>-</td><td>±0.1%</td>
+                    </tr>
+                    <tr class="color-gray">
+                        <td>Gris</td><td>8</td><td>-</td><td>-</td>
+                    </tr>
+                    <tr class="color-white">
+                        <td>Blanco</td><td>9</td><td>-</td><td>-</td>
+                    </tr>
+                    <tr class="color-gold">
+                        <td>Dorado</td><td>-</td><td>×0.1</td><td>±5%</td>
+                    </tr>
+                    <tr class="color-silver">
+                        <td>Plateado</td><td>-</td><td>×0.01</td><td>±10%</td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 20px; color: #c2185b;">📌 Requisitos del Programa</h3>
+                <ul>
+                    <li>Usar <strong>Según (switch-case)</strong> para convertir cada color a su valor numérico</li>
+                    <li>Usar <strong>Si-Entonces</strong> para validar que los colores ingresados sean válidos</li>
+                    <li>Calcular: <code>valor = (digito1 × 10 + digito2) × multiplicador</code></li>
+                    <li>Calcular: <code>valorMax = valor × (1 + tolerancia/100)</code></li>
+                    <li>Calcular: <code>valorMin = valor × (1 - tolerancia/100)</code></li>
+                    <li>Mostrar todos los resultados con formato claro</li>
+                </ul>
+
+                <h3 style="margin-top: 20px; color: #c2185b;">💡 Ejemplo de Ejecución Esperada</h3>
+                <div class="code-block" style="background: #1a1a2e; border: 2px solid #e91e63;">
+<span class="comment">// Entrada del usuario:</span>
+<span class="string">Banda 1: Rojo</span>
+<span class="string">Banda 2: Violeta</span>
+<span class="string">Banda 3: Naranja</span>
+<span class="string">Tolerancia: Dorado</span>
+
+<span class="comment">// Salida esperada:</span>
+<span class="string">=== RESULTADO ===</span>
+<span class="string">Valor nominal: 27000 Ω</span>
+<span class="string">Valor en kΩ: 27.0 kΩ</span>
+<span class="string">Tolerancia: ±5%</span>
+<span class="string">Valor máximo: 28350.0 Ω</span>
+<span class="string">Valor mínimo: 25650.0 Ω</span>
+                </div>
+            </div>
+
+            <!-- CASO 2: WHILE + IF -->
+            <div class="eval-case" style="background: #e8f5e9; border-color: #4caf50;">
+                <h3 style="color: #2e7d32;">🎯 CASO 2: Sistema de Monitoreo de Temperatura</h3>
+                <p style="margin-bottom: 15px;">Crear un programa que <strong>monitoree la temperatura</strong> de un circuito electrónico de forma continua, usando <strong>Mientras</strong> y <strong>Si-Entonces</strong>.</p>
+                
+                <h3 style="margin-top: 20px; color: #2e7d32;">📌 Funcionalidad</h3>
+                <ul>
+                    <li>El programa pregunta la temperatura del sensor repetidamente</li>
+                    <li>El ciclo se repite <strong>mientras</strong> el usuario no ingrese "-999" (código para salir)</li>
+                    <li>Para cada lectura, evalúa con <strong>Si-Entonces</strong>:</li>
+                </ul>
+                <ul>
+                    <li><span class="highlight" style="background: #ef5350; color: white;">Si temp &lt; 0°C</span> → Mostrar "⚠️ CRÍTICO: Temperatura bajo cero - Activar calefactor"</li>
+                    <li><span class="highlight" style="background: #ff9800; color: white;">Si temp entre 0°C y 25°C</span> → Mostrar "✅ Normal: Temperatura en rango seguro"</li>
+                    <li><span class="highlight" style="background: #f44336; color: white;">Si temp entre 25°C y 50°C</span> → Mostrar "⚠️ ADVERTENCIA: Temperatura elevada - Activar ventilador"</li>
+                    <li><span class="highlight" style="background: #b71c1c; color: white;">Si temp &gt; 50°C</span> → Mostrar "🚨 PELIGRO: Sobrecalentamiento - APAGAR sistema"</li>
+                </ul>
+
+                <h3 style="margin-top: 20px; color: #2e7d32;">📌 Requisitos Adicionales</h3>
+                <ul>
+                    <li>Contar cuántas lecturas se realizaron</li>
+                    <li>Calcular el <strong>promedio</strong> de temperaturas registradas</li>
+                    <li>Registrar la <strong>temperatura máxima</strong> y <strong>mínima</strong> detectada</li>
+                    <li>Al salir (ingresando -999), mostrar el resumen con todas las estadísticas</li>
+                    <li>Validar que la temperatura ingresada esté entre -50 y 100</li>
+                </ul>
+
+                <h3 style="margin-top: 20px; color: #2e7d32;">💡 Ejemplo de Ejecución</h3>
+                <div class="code-block" style="background: #1a2e1a; border: 2px solid #4caf50;">
+<span class="string">=== MONITOREO DE TEMPERATURA ===</span>
+<span class="string">Ingrese temperatura (-999 para salir):</span>
+<span class="comment">// Usuario ingresa: 15</span>
+<span class="string">✅ Normal: Temperatura en rango seguro</span>
+<span class="comment">// Usuario ingresa: 45</span>
+<span class="string">⚠️ ADVERTENCIA: Temperatura elevada - Activar ventilador</span>
+<span class="comment">// Usuario ingresa: 65</span>
+<span class="string">🚨 PELIGRO: Sobrecalentamiento - APAGAR sistema</span>
+<span class="comment">// Usuario ingresa: -5</span>
+<span class="string">⚠️ CRÍTICO: Temperatura bajo cero - Activar calefactor</span>
+<span class="comment">// Usuario ingresa: -999</span>
+<span class="string">=== RESUMEN FINAL ===</span>
+<span class="string">Total de lecturas: 4</span>
+<span class="string">Temperatura promedio: 30.0°C</span>
+<span class="string">Temperatura máxima: 65.0°C</span>
+<span class="string">Temperatura mínima: -5.0°C</span>
+<span class="string">✅ Monitoreo finalizado</span>
+                </div>
+            </div>
+
+            <!-- TABLA DE CALIFICACIÓN -->
+            <div class="section" style="background: #e3f2fd; border-left-color: #1565c0;">
+                <h2 style="color: #1565c0;">📊 Rúbrica de Calificación</h2>
+                <table class="grading-table">
+                    <tr>
+                        <th>Criterio</th>
+                        <th>Puntos</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>Variables y tipos correctos</td>
+                        <td>10 pts</td>
+                        <td>Declaración adecuada de variables con tipos apropiados</td>
+                    </tr>
+                    <tr>
+                        <td>Estructura Según (switch)</td>
+                        <td>20 pts</td>
+                        <td>Conversión correcta de colores a valores numéricos</td>
+                    </tr>
+                    <tr>
+                        <td>Estructura Si-Entonces</td>
+                        <td>20 pts</td>
+                        <td>Condiciones correctamente implementadas</td>
+                    </tr>
+                    <tr>
+                        <td>Ciclo Mientras (While)</td>
+                        <td>15 pts</td>
+                        <td>Repetición controlada con condición de salida</td>
+                    </tr>
+                    <tr>
+                        <td>Cálculos matemáticos</td>
+                        <td>15 pts</td>
+                        <td>Operaciones correctas y resultados precisos</td>
+                    </tr>
+                    <tr>
+                        <td>Validación de datos</td>
+                        <td>10 pts</td>
+                        <td>Manejo de valores fuera de rango o inválidos</td>
+                    </tr>
+                    <tr>
+                        <td>Formato y legibilidad</td>
+                        <td>5 pts</td>
+                        <td>Código ordenado con comentarios y sangría</td>
+                    </tr>
+                    <tr>
+                        <td>Ejecución sin errores</td>
+                        <td>5 pts</td>
+                        <td>El programa compila y ejecuta correctamente</td>
+                    </tr>
+                    <tr style="background: #1565c0; color: white; font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td>100 pts</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="info-box">
+                <strong>📌 Nota:</strong> El profesor evaluará la ejecución paso a paso en PSeInt. Asegúrese de que su algoritmo funcione correctamente con diferentes entradas antes de entregar.
+            </div>
+        </div>
+
         <!-- NAVEGACIÓN -->
         <div class="navigation">
             <button class="nav-btn" onclick="changeSlide(-1)" id="btnPrev">⬅ Anterior</button>
@@ -1119,32 +1408,28 @@
             <button class="nav-btn" onclick="goToSlide(6)" id="btn6">6</button>
             <button class="nav-btn" onclick="goToSlide(7)" id="btn7">7</button>
             <button class="nav-btn" onclick="goToSlide(8)" id="btn8">8</button>
+            <button class="nav-btn" onclick="goToSlide(9)" id="btn9">9</button>
             <button class="nav-btn" onclick="changeSlide(1)" id="btnNext">Siguiente ➡</button>
         </div>
     </div>
 
     <script>
         let currentSlide = 1;
-        const totalSlides = 8;
+        const totalSlides = 9;
 
         function showSlide(n) {
-            // Ocultar todas las diapositivas
             for (let i = 1; i <= totalSlides; i++) {
                 document.getElementById('slide' + i).classList.remove('active');
                 document.getElementById('btn' + i).classList.remove('active');
             }
             
-            // Mostrar diapositiva actual
             document.getElementById('slide' + n).classList.add('active');
             document.getElementById('btn' + n).classList.add('active');
             
-            // Actualizar estado de botones
             document.getElementById('btnPrev').disabled = (n === 1);
             document.getElementById('btnNext').disabled = (n === totalSlides);
             
             currentSlide = n;
-            
-            // Scroll al inicio
             window.scrollTo(0, 0);
         }
 
@@ -1159,18 +1444,16 @@
             showSlide(n);
         }
 
-        // Navegación con teclado
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
                 changeSlide(-1);
             } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
                 changeSlide(1);
-            } else if (e.key >= '1' && e.key <= '8') {
+            } else if (e.key >= '1' && e.key <= '9') {
                 goToSlide(parseInt(e.key));
             }
         });
 
-        // Inicializar
         showSlide(1);
     </script>
 </body>
